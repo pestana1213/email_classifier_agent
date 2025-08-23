@@ -9,8 +9,7 @@ import com.google.api.services.gmail.GmailScopes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 import java.util.Collections;
 
 @Configuration
@@ -26,8 +25,9 @@ public class GmailConfig {
         JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
         // Load client secrets
-        var in = new FileInputStream(CREDENTIALS_FILE_PATH);
-        var clientSecrets = com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
+        // var in = new FileInputStream(CREDENTIALS_FILE_PATH);
+        String credentialsPath = System.getenv("GMAIL_CREDENTIALS");
+        var clientSecrets = com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.load(jsonFactory,  new FileReader(credentialsPath));
         var scopes = Collections.singleton(GmailScopes.GMAIL_MODIFY);
 
         // Build flow
