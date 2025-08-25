@@ -1,10 +1,9 @@
-package com.langchain.agent;
+package com.langchain.agent.Services;
 
 import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.ModifyMessageRequest;
-import com.langchain.agent.EmailClassifier.OllamaService;
+import com.langchain.agent.Utils.GmailLabelHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

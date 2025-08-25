@@ -1,4 +1,4 @@
-package com.langchain.agent;
+package com.langchain.agent.Config;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
