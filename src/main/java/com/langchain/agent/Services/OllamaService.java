@@ -1,10 +1,9 @@
-package com.langchain.agent.EmailClassifier;
+package com.langchain.agent.Services;
 
+import com.langchain.agent.EmailClassifier.EmailClassifier;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.service.AiServices;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
 
 @Service
 public class OllamaService {
