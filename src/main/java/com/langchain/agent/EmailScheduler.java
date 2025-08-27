@@ -13,7 +13,7 @@ public class EmailScheduler {
         this.listener = listener;
     }
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(fixedDelay = 6000)
     public void poll() throws Exception {
         listener.checkNewEmails();
     }

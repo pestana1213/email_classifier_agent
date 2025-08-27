@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClassificationService {
 
-    @Autowired
-    private ClassificationsRepo classificationsRepo;
+    private final ClassificationsRepo classificationsRepo;
+
+    public ClassificationService(ClassificationsRepo classificationsRepo) {
+        this.classificationsRepo = classificationsRepo;
+    }
 
     public void save(Classifications classification) {
         this.classificationsRepo.save(classification);

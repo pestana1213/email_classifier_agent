@@ -27,7 +27,7 @@ public class GmailConfig {
         // Load client secrets
         // var in = new FileInputStream(CREDENTIALS_FILE_PATH);
         String credentialsPath = System.getenv("GMAIL_CREDENTIALS");
-        var clientSecrets = com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.load(jsonFactory,  new FileReader(credentialsPath));
+        var clientSecrets = com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.load(jsonFactory,  new FileReader(CREDENTIALS_FILE_PATH));
         var scopes = Collections.singleton(GmailScopes.GMAIL_MODIFY);
 
         // Build flow

@@ -12,7 +12,7 @@ public class OllamaService {
 
     public OllamaService() {
         OllamaChatModel ollamaChatModel = OllamaChatModel.builder()
-                .baseUrl("http://192.168.1.195:31434")
+                .baseUrl("http://192.168.1.195:11434")
                 .modelName("mistral")
                 .build();
 
