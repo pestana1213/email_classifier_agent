@@ -1,4 +1,4 @@
-package com.langchain.agent.Utils;
+package com.langchain.agent;
 
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Label;

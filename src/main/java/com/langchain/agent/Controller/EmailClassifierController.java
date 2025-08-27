@@ -1,6 +1,6 @@
 package com.langchain.agent.Controller;
 
-import com.langchain.agent.Services.OllamaService;
+import com.langchain.agent.EmailClassifier.OllamaService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
