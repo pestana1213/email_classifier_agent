@@ -2,6 +2,7 @@ package com.langchain.agent.Entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,9 +19,15 @@ public class Classifications {
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
+    private String messageId;
+
     private String classification;
 
     private String sender;
+
+    private String subject;
+
+    private String receivedAt;
 
     private LocalDateTime createdAt;
 

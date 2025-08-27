@@ -48,37 +48,46 @@ public class GmailListenerService {
 
         for (Message m : processingMessages) {
             Message fullMessage = gmail.users().messages().get("me", m.getId()).execute();
-            String snippet = fullMessage.getSnippet();
-            String body = getEmailBody(fullMessage);
-            String input = snippet + " " + (body.length() > 1000 ? body.substring(0, 1000) : body);
-            String category = ollamaService.classifyEmail(input);
-            System.out.println("📩 Gmail API Email classified as: " + category);
+            if (!classificationService.isIdInDB(getHeader(fullMessage, "Message-ID"))) {
+                String snippet = fullMessage.getSnippet();
+                String body = getEmailBody(fullMessage);
+                String input = snippet + " " + (body.length() > 1000 ? body.substring(0, 1000) : body);
+                String category = ollamaService.classifyEmail(input);
+                System.out.println("📩 Gmail API Email classified as: " + category);
 
-            String labelId = labelHelper.getLabelIdForCategory(category);
+                String labelId = labelHelper.getLabelIdForCategory(category);
 
-            ModifyMessageRequest mods = new ModifyMessageRequest()
-                    .setAddLabelIds(Collections.singletonList(labelId));
-            gmail.users().messages().modify("me", fullMessage.getId(), mods).execute();
-            processingMessages.removeIf(msg -> msg.getId().equals(fullMessage.getId()));
+                ModifyMessageRequest mods = new ModifyMessageRequest()
+                        .setAddLabelIds(Collections.singletonList(labelId));
+                gmail.users().messages().modify("me", fullMessage.getId(), mods).execute();
+                processingMessages.removeIf(msg -> msg.getId().equals(fullMessage.getId()));
 
-            List<MessagePartHeader> headers = fullMessage.getPayload().getHeaders();
+                Classifications classifications = Classifications.builder()
+                        .messageId(getHeader(fullMessage, "Message-ID"))
+                        .subject(getHeader(fullMessage, "Subject"))
+                        .receivedAt(getHeader(fullMessage, "Date"))
+                        .classification(category)
+                        .sender(getHeader(fullMessage, "From"))
+                        .build();
 
-            String sender = headers.stream()
-                    .filter(h -> "From".equalsIgnoreCase(h.getName()))
-                    .map(MessagePartHeader::getValue)
-                    .findFirst()
-                    .orElse("unknown");
-
-            System.out.println("Sender: " + sender);
-            Classifications classifications = Classifications.builder()
-                    .classification(category)
-                    .sender(sender)
-                    .build();
-
-            classificationService.save(classifications);
+                classificationService.save(classifications);
+            }
+            else {
+                System.out.println("Message already classified");
+                processingMessages.removeIf(msg -> msg.getId().equals(fullMessage.getId()));
+            }
         }
     }
 
+    private String getHeader(Message fullMessage, String header) {
+        List<MessagePartHeader> headers = fullMessage.getPayload().getHeaders();
+
+        return headers.stream()
+                .filter(h -> header.equalsIgnoreCase(h.getName()))
+                .map(MessagePartHeader::getValue)
+                .findFirst()
+                .orElse("unknown");
+    }
 
     private String getEmailBody(Message fullMessage) {
         var payload = fullMessage.getPayload();

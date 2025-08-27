@@ -5,6 +5,8 @@ import com.langchain.agent.Repos.ClassificationsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClassificationService {
 
@@ -16,5 +18,9 @@ public class ClassificationService {
 
     public void save(Classifications classification) {
         this.classificationsRepo.save(classification);
+    }
+
+    public boolean isIdInDB(String messageId) {
+        return this.classificationsRepo.findByMessageId(messageId).isPresent();
     }
 }
