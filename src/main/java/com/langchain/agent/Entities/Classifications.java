@@ -11,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "classifications")
+@Builder
 public class Classifications {
 
     @Id

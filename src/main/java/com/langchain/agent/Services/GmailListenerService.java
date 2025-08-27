@@ -70,9 +70,11 @@ public class GmailListenerService {
                     .orElse("unknown");
 
             System.out.println("Sender: " + sender);
-            Classifications classifications = new Classifications();
-            classifications.setClassification(category);
-            classifications.setSender(sender);
+            Classifications classifications = Classifications.builder()
+                    .classification(category)
+                    .sender(sender)
+                    .build();
+
             classificationService.save(classifications);
         }
     }
